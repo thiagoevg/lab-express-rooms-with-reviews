@@ -22,8 +22,8 @@ app.use(cors({ origin: "http://localhost:3000" }));
 const roomsRouter = require("./routes/room.routes");
 app.use("/", roomsRouter);
 
-// const productRouter = require("./routes/product.routes");
-// app.use("/", productRouter);
+const userRouter = require("./routes/user.routes");
+app.use("/", userRouter);
 
 // const transactionRouter = require("./routes/transaction.routes");
 // app.use("/", transactionRouter);
