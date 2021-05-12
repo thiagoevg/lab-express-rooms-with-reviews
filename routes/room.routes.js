@@ -12,7 +12,7 @@ router.post('/rooms', isAuthenticated, attachCurrentUser, async (req, res) => {
     const loggedInUser = req.currentUser;
 
     if (loggedInUser) {
-      const result = await RoomModel.create({...req.body, creator_id: req.currentUser._id })
+      const result = await RoomModel.create(req.body)
       const updatedUser = await UserModel.findOneAndUpdate({ _id: loggedInUser._id }, { $push: { rooms: result._id } })
       console.log(updatedUser)
       return res.status(201).json(result)
@@ -39,7 +39,7 @@ router.get('/rooms', async (req, res) => {
 
 // crUd http put - UPDATE 
 
-router.put('/rooms/:roomId', async (req, res) => {
+router.put('/rooms/:roomId', isAuthenticated, attachCurrentUser, async (req, res) => {
   const { roomId } = req.params
 
   try {
@@ -56,7 +56,7 @@ router.put('/rooms/:roomId', async (req, res) => {
 
 // cruD http delete - DELETE
 
-router.delete('/rooms/:roomId', async(req, res)=> {
+router.delete('/rooms/:roomId', isAuthenticated, attachCurrentUser, async(req, res)=> {
   const { roomId } = req.params
 
   try{

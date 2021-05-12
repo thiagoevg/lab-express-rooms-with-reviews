@@ -113,7 +113,7 @@ router.get("/profile", isAuthenticated, attachCurrentUser, (req, res) => {
 
 // crUd (UPDATE) - HTTP PUT/PATCH
 // Atualizar um usuário
-router.put("/user/:id", async (req, res) => {
+router.put("/user/:id", isAuthenticated, attachCurrentUser, async (req, res) => {
   try {
     // Extrair o id do usuário do parâmetro de rota
     const { id } = req.params;

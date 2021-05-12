@@ -27,6 +27,27 @@ router.post('/reviews', isAuthenticated, attachCurrentUser, async (req, res)=> {
   }
 })
 
+// cruD (DELETE) - HTTP DELETE
+router.delete('/reviews/:reviewId', isAuthenticated, attachCurrentUser, async(req, res)=> {
+
+  const { reviewId } = req.params
+  const loggedInUser = req.currentUser;
+
+  try{
+    if(!loggedInUser.reviews.includes(reviewId)) {
+      return res.status(400).json({msg: `You can't delete this comment`})
+    }
+    const result = await ReviewModel.deleteOne({_id: roomId})
+    if(result.n === 0) {
+      return res.status(404).json({msg: 'Room not found.'})
+    }
+    return res.status(200).json({})
+  } catch(err) {
+    console.error(err)
+    return res.status(500).json({msg: JSON.stringify(err)})
+  }
+})
+
 module.exports = router
 
 
