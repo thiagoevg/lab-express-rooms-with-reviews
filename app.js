@@ -25,8 +25,8 @@ app.use("/", roomsRouter);
 const userRouter = require("./routes/user.routes");
 app.use("/", userRouter);
 
-// const transactionRouter = require("./routes/transaction.routes");
-// app.use("/", transactionRouter);
+const reviewRouter = require("./routes/review.routes");
+app.use("/", reviewRouter);
 
 // Inicia o servidor para escutar requisições HTTP na porta 4000
 app.listen(PORT, () => console.log(`Server up and running at port ${PORT}`));

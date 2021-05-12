@@ -1,4 +1,4 @@
-const UserModel = require("../models/Usermodel");
+const UserModel = require("../models/UserModel");
 
 module.exports = async (req, res, next) => {
   try {
@@ -8,10 +8,7 @@ module.exports = async (req, res, next) => {
     const user = await UserModel.findOne(
       { _id: loggedInUser._id },
       { passwordHash: 0 } // Excluindo o hash da senha da resposta que vai pro servidor, por segurança
-    ).populate({
-      path: "reviews",
-      model: "Review",
-    });
+    );
 
     if (!user) {
       // 400 significa Bad Request

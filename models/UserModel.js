@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const UserModel = mongoose.Schema(
+const UserSchema = mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
     email: {
@@ -21,5 +21,8 @@ const UserModel = mongoose.Schema(
       country: { type: String, required: true, trim: true },
     },
     reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
+    rooms: [{ type: mongoose.Schema.Types.ObjectId, ref: "Room" }]
   }
 )
+
+module.exports = mongoose.model("User", UserSchema)

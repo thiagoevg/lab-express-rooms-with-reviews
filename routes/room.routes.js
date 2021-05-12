@@ -1,13 +1,24 @@
 const router = require('express').Router()
 
 const RoomModel = require('../models/RoomModel')
+const UserModel = require('../models/UserModel')
+const isAuthenticated = require("../middlewares/isAuthenticated");
+const attachCurrentUser = require("../middlewares/attachCurrentUser");
 
 // Crud http post - CREATE 
 
-router.post('/rooms', async (req, res) => {
+router.post('/rooms', isAuthenticated, attachCurrentUser, async (req, res) => {
   try {
-    const result = await RoomModel.create(req.body)
-    return res.status(201).json(result)
+    const loggedInUser = req.currentUser;
+
+    if (loggedInUser) {
+      const result = await RoomModel.create({...req.body, creator_id: req.currentUser._id })
+      const updatedUser = await UserModel.findOneAndUpdate({ _id: loggedInUser._id }, { $push: { rooms: result._id } })
+      console.log(updatedUser)
+      return res.status(201).json(result)
+    } else {
+      return res.status(401).json({ msg: "Unauthorized" });
+    }
   } catch (err) {
     console.error(err)
     return res.status(500).json({ msg: JSON.stringify(err) })
